@@ -9,6 +9,7 @@ list models.py
 populate_*.py
 # Distribution / packaging
 .Python
+mockups/
 build/
 develop-eggs/
 dist/
