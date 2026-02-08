@@ -55,19 +55,8 @@ The announcement of Gemini 3's advanced reasoning capabilities presented the per
 
 LegalLens follows a modern cloud-native architecture designed for scalability and security:
 
-```
-┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
-│  Flutter App    │────────▶│  FastAPI Backend │────────▶│   Gemini 3 API  │
-│  (Frontend)     │  HTTPS  │   (Python)       │   SDK   │  + Cloud APIs   │
-└─────────────────┘         └──────────────────┘         └─────────────────┘
-        │                            │                             │
-        │                            │                             │
-        ▼                            ▼                             ▼
-┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
-│  Firebase Auth  │         │  Cloud Firestore │         │  Google Search  │
-│  + Biometrics   │         │  + Cloud Storage │         │   Grounding     │
-└─────────────────┘         └──────────────────┘         └─────────────────┘
-```
+![LegalLens Architecture](https://raw.githubusercontent.com/TensorTroops/LegalLens-Gemini-3/master/frontend/assets/images/Gemini%203.png
+)
 
 ### Frontend - Flutter (Dart)
 

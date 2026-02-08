@@ -33,19 +33,6 @@ LegalLens acts as your wise, multilingual legal companion, explaining complex le
 
 ---
 
-## Architecture
-
-<img width="1920" height="1080" alt="techstack" src="https://github.com/user-attachments/assets/5b5867fb-d543-4ee8-9d1a-b567f7c8a0df" />
-
-
-- **Frontend:** Flutter (cross-platform mobile/web UI)
-- **Backend:** Python (FastAPI/Flask), powered by custom routing agent & MCP server
-- **AI/ML:** Google Document AI, PaLM, Vertex AI, NotebookLM, Gemma Embedding
-- **Databases:** Cloud Spanner (legal dictionary, knowledge graph), AlloyDB (law books, case data), Redis/Valkey (caching)
-- **Security:** Firebase Authentication, Google IAM, Cloud KMS, GCUL (Blockchain Audit)
-- **APIs/Other Services:** Google Translate, Speech-to-Text, Text-to-Speech
-
----
 
 ## Security & Compliance
 
@@ -54,15 +41,6 @@ LegalLens acts as your wise, multilingual legal companion, explaining complex le
 - Role-based access via Google IAM/Firebase Auth
 - Official sources (Ministry of Justice & Law, Indian law books)
 
----
-
-## Technologies Used
-
-<img width="1920" height="1080" alt="technologies" src="https://github.com/user-attachments/assets/3e5d4be1-e8e1-417d-88f7-23843bda0737" />
-
-
-
----
 
 ## Quick Start
 
