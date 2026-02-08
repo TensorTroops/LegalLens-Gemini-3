@@ -1093,7 +1093,7 @@ class _MyFilesScreenState extends State<MyFilesScreen> {
               );
               
               try {
-                print('Starting delete operation for: ${document.id}');
+              print('Starting delete operation for: ${document.id}');
                 
                 await Provider.of<FilesProvider>(context, listen: false)
                     .deleteDocument(
@@ -1107,7 +1107,7 @@ class _MyFilesScreenState extends State<MyFilesScreen> {
                   Navigator.pop(context);
                 }
                 
-                print('Delete operation completed successfully');
+              print('Delete operation completed successfully');
                 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -1118,7 +1118,7 @@ class _MyFilesScreenState extends State<MyFilesScreen> {
                 );
                 
               } catch (e) {
-                print('Delete operation failed: $e');
+              print('Delete operation failed: $e');
                 
                 // Close progress dialog on error
                 if (mounted && Navigator.canPop(context)) {

@@ -49,12 +49,12 @@ class PDFDownloadService {
         if (await downloadsDir.exists()) {
           directory = downloadsDir;
           targetPath = '$downloadsPath/$filename';
-          print('📁 Android: Saving to public Downloads: $targetPath');
+        print('📁 Android: Saving to public Downloads: $targetPath');
         } else {
           throw Exception('Downloads directory not available');
         }
       } catch (e) {
-        print('❌ Public Downloads failed, trying external storage: $e');
+      print('❌ Public Downloads failed, trying external storage: $e');
         // Fall back to external storage directory
         try {
           final externalDir = await getExternalStorageDirectory();
@@ -65,23 +65,23 @@ class PDFDownloadService {
             directory = legalLensDir;
             targetPath = '${legalLensDir.path}/$filename';
             
-            print('📁 Android fallback: Saving to external storage: $targetPath');
+          print('📁 Android fallback: Saving to external storage: $targetPath');
           } else {
             throw Exception('External storage not available');
           }
         } catch (e2) {
-          print('❌ External storage also failed, using app documents: $e2');
+        print('❌ External storage also failed, using app documents: $e2');
           // Final fallback to application documents directory
           directory = await getApplicationDocumentsDirectory();
           targetPath = '${directory.path}/$filename';
-          print('📁 Android final fallback: Saving to app documents: $targetPath');
+        print('📁 Android final fallback: Saving to app documents: $targetPath');
         }
       }
     } else {
       // For iOS and other platforms, use application documents directory
       directory = await getApplicationDocumentsDirectory();
       targetPath = '${directory.path}/$filename';
-      print('📁 iOS: Saving to app documents: $targetPath');
+    print('📁 iOS: Saving to app documents: $targetPath');
     }
     
     final file = File(targetPath);
@@ -90,7 +90,7 @@ class PDFDownloadService {
     // Verify file was created
     final exists = await file.exists();
     final size = exists ? await file.length() : 0;
-    print('✅ File created: $exists, Size: $size bytes at $targetPath');
+  print('✅ File created: $exists, Size: $size bytes at $targetPath');
     
     return targetPath;
   }
@@ -126,7 +126,7 @@ class PDFDownloadService {
         return await launchUrl(uri);
       }
     } catch (e) {
-      print('Error opening PDF: $e');
+    print('Error opening PDF: $e');
       return false;
     }
   }

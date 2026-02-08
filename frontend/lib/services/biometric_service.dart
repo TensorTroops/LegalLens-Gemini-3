@@ -46,7 +46,7 @@ class BiometricService {
       
       return BiometricCapability.none;
     } catch (e) {
-      print('BiometricService: Error checking capability: $e');
+    print('BiometricService: Error checking capability: $e');
       return BiometricCapability.none;
     }
   }
@@ -54,7 +54,7 @@ class BiometricService {
   /// Enroll user for biometric authentication
   Future<BiometricEnrollmentResult> enrollBiometric(String userEmail) async {
     try {
-      print('🔐 BiometricService: Starting enrollment for $userEmail');
+    print('🔐 BiometricService: Starting enrollment for $userEmail');
       
       final capability = await checkBiometricCapability();
       if (capability == BiometricCapability.none) {
@@ -73,7 +73,7 @@ class BiometricService {
       );
       
       if (!didAuthenticate) {
-        print('BiometricService: User cancelled enrollment');
+      print('BiometricService: User cancelled enrollment');
         return BiometricEnrollmentResult.userCancelled;
       }
       
@@ -109,10 +109,10 @@ class BiometricService {
         value: userEmail,
       );
       
-      print('BiometricService: Enrollment successful for $userEmail');
+    print('BiometricService: Enrollment successful for $userEmail');
       return BiometricEnrollmentResult.success;
     } catch (e) {
-      print('BiometricService: Enrollment error: $e');
+    print('BiometricService: Enrollment error: $e');
       return BiometricEnrollmentResult.error;
     }
   }
@@ -120,12 +120,12 @@ class BiometricService {
   /// Verify biometric authentication for login
   Future<BiometricVerificationResult> verifyBiometric(String userEmail) async {
     try {
-      print('🔍 BiometricService: Starting verification for $userEmail');
+    print('🔍 BiometricService: Starting verification for $userEmail');
       
       // Check if biometrics are enrolled for this user
       final isEnabled = await _storage.read(key: 'biometric_enabled_$userEmail');
       if (isEnabled != 'true') {
-        print('BiometricService: Biometric not enrolled for $userEmail');
+      print('BiometricService: Biometric not enrolled for $userEmail');
         return BiometricVerificationResult.notEnrolled;
       }
       
@@ -134,7 +134,7 @@ class BiometricService {
       final currentDeviceId = await _getDeviceId();
       
       if (storedDeviceId != currentDeviceId) {
-        print('🚨 BiometricService: Device mismatch - security issue detected');
+      print('🚨 BiometricService: Device mismatch - security issue detected');
         await disableBiometric(userEmail);
         return BiometricVerificationResult.securityError;
       }
@@ -151,7 +151,7 @@ class BiometricService {
       );
       
       if (!didAuthenticate) {
-        print('BiometricService: Authentication failed for $userEmail');
+      print('BiometricService: Authentication failed for $userEmail');
         return BiometricVerificationResult.failed;
       }
       
@@ -160,15 +160,15 @@ class BiometricService {
       final expectedToken = await _generateBiometricToken(userEmail);
       
       if (storedToken != expectedToken) {
-        print('🚨 BiometricService: Token mismatch - possible security breach');
+      print('🚨 BiometricService: Token mismatch - possible security breach');
         await disableBiometric(userEmail);
         return BiometricVerificationResult.securityError;
       }
       
-      print('BiometricService: Verification successful for $userEmail');
+    print('BiometricService: Verification successful for $userEmail');
       return BiometricVerificationResult.success;
     } catch (e) {
-      print('BiometricService: Verification error: $e');
+    print('BiometricService: Verification error: $e');
       return BiometricVerificationResult.error;
     }
   }
@@ -179,7 +179,7 @@ class BiometricService {
     String operationType
   ) async {
     try {
-      print('🔐 BiometricService: GCUL operation verification - $operationType');
+    print('🔐 BiometricService: GCUL operation verification - $operationType');
       
       // Check if biometrics are enabled
       final isEnabled = await _storage.read(key: 'biometric_enabled_$userEmail');
@@ -203,10 +203,10 @@ class BiometricService {
         return BiometricVerificationResult.failed;
       }
       
-      print('BiometricService: GCUL operation authorized - $operationType');
+    print('BiometricService: GCUL operation authorized - $operationType');
       return BiometricVerificationResult.success;
     } catch (e) {
-      print('BiometricService: GCUL verification error: $e');
+    print('BiometricService: GCUL verification error: $e');
       return BiometricVerificationResult.error;
     }
   }
@@ -232,7 +232,7 @@ class BiometricService {
         capability: capability,
       );
     } catch (e) {
-      print('BiometricService: Error getting biometric info: $e');
+    print('BiometricService: Error getting biometric info: $e');
       return null;
     }
   }
@@ -240,7 +240,7 @@ class BiometricService {
   /// Disable biometric authentication
   Future<void> disableBiometric(String userEmail) async {
     try {
-      print('🔐 BiometricService: Disabling biometric for $userEmail');
+    print('🔐 BiometricService: Disabling biometric for $userEmail');
       
       await _storage.delete(key: 'biometric_enabled_$userEmail');
       await _storage.delete(key: 'biometric_token_$userEmail');
@@ -248,9 +248,9 @@ class BiometricService {
       await _storage.delete(key: 'biometric_enrolled_at_$userEmail');
       await _storage.delete(key: 'last_biometric_user'); // Remove last user reference
       
-      print('BiometricService: Biometric disabled for $userEmail');
+    print('BiometricService: Biometric disabled for $userEmail');
     } catch (e) {
-      print('BiometricService: Error disabling biometric: $e');
+    print('BiometricService: Error disabling biometric: $e');
     }
   }
 
@@ -259,7 +259,7 @@ class BiometricService {
     try {
       return await _storage.read(key: 'last_biometric_user');
     } catch (e) {
-      print('BiometricService: Error getting last biometric user: $e');
+    print('BiometricService: Error getting last biometric user: $e');
       return null;
     }
   }
@@ -267,7 +267,7 @@ class BiometricService {
   /// Perform biometric authentication for login (without existing session)
   Future<BiometricLoginAttemptResult> authenticateForLogin() async {
     try {
-      print('🔐 BiometricService: Starting login authentication');
+    print('🔐 BiometricService: Starting login authentication');
       
       // Check device capability
       final capability = await checkBiometricCapability();
@@ -317,7 +317,7 @@ class BiometricService {
       final currentDeviceId = await _getDeviceId();
       
       if (storedDeviceId != currentDeviceId) {
-        print('🚨 BiometricService: Device mismatch - security issue detected');
+      print('🚨 BiometricService: Device mismatch - security issue detected');
         await disableBiometric(lastUser);
         return BiometricLoginAttemptResult(
           success: false,
@@ -330,7 +330,7 @@ class BiometricService {
       final expectedToken = await _generateBiometricToken(lastUser);
       
       if (storedToken != expectedToken) {
-        print('🚨 BiometricService: Token mismatch - possible security breach');
+      print('🚨 BiometricService: Token mismatch - possible security breach');
         await disableBiometric(lastUser);
         return BiometricLoginAttemptResult(
           success: false,
@@ -338,7 +338,7 @@ class BiometricService {
         );
       }
       
-      print('BiometricService: Login authentication successful for $lastUser');
+    print('BiometricService: Login authentication successful for $lastUser');
       return BiometricLoginAttemptResult(
         success: true,
         userEmail: lastUser,
@@ -346,7 +346,7 @@ class BiometricService {
       );
       
     } catch (e) {
-      print('BiometricService: Login authentication error: $e');
+    print('BiometricService: Login authentication error: $e');
       return BiometricLoginAttemptResult(
         success: false,
         reason: 'Authentication error: ${e.toString()}',
@@ -374,7 +374,7 @@ class BiometricService {
       }
       return 'unknown_device';
     } catch (e) {
-      print('BiometricService: Error getting device ID: $e');
+    print('BiometricService: Error getting device ID: $e');
       return 'device_error';
     }
   }

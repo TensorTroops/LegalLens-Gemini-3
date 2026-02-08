@@ -44,7 +44,7 @@ class GCULDocumentService {
 
       // Biometric verification for enhanced security (if requested and available)
       if (requireBiometric && context != null) {
-        print('🔐 GCUL: Performing biometric verification for document save');
+      print('🔐 GCUL: Performing biometric verification for document save');
         final authProvider = Provider.of<auth_provider.AuthProvider>(context, listen: false);
         
         if (authProvider.isBiometricEnabled) {
@@ -56,7 +56,7 @@ class GCULDocumentService {
           }
           
           if (biometricResult == BiometricVerificationResult.success) {
-            print('GCUL: Biometric verification successful for document save');
+          print('GCUL: Biometric verification successful for document save');
           }
         }
       }
@@ -87,7 +87,7 @@ class GCULDocumentService {
         request.fields['extracted_text'] = extractedText;
       }
 
-      print('🔐 GCUL: Saving document with blockchain security...');
+    print('🔐 GCUL: Saving document with blockchain security...');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
@@ -95,7 +95,7 @@ class GCULDocumentService {
         final data = jsonDecode(response.body);
         
         if (data['success'] == true) {
-          print('GCUL: Document saved successfully with blockchain verification');
+        print('GCUL: Document saved successfully with blockchain verification');
           return SavedDocument.fromJson(data['document']);
         } else {
           throw Exception(data['error'] ?? 'Failed to save document');
@@ -105,7 +105,7 @@ class GCULDocumentService {
       }
 
     } catch (e) {
-      print('GCUL: Document save failed: $e');
+    print('GCUL: Document save failed: $e');
       throw Exception('Failed to save document with GCUL: $e');
     }
   }
@@ -142,7 +142,7 @@ class GCULDocumentService {
       }
 
     } catch (e) {
-      print('Error loading user documents: $e');
+    print('Error loading user documents: $e');
       throw Exception('Failed to load documents: $e');
     }
   }
@@ -162,7 +162,7 @@ class GCULDocumentService {
 
       // Biometric verification for sensitive operations
       if (requireBiometric && context != null) {
-        print('🔐 GCUL: Performing biometric verification for document verification');
+      print('🔐 GCUL: Performing biometric verification for document verification');
         final authProvider = Provider.of<auth_provider.AuthProvider>(context, listen: false);
         
         if (authProvider.isBiometricEnabled) {
@@ -174,7 +174,7 @@ class GCULDocumentService {
           }
           
           if (biometricResult == BiometricVerificationResult.success) {
-            print('GCUL: Biometric verification successful for document verification');
+          print('GCUL: Biometric verification successful for document verification');
           }
         }
       }
@@ -194,20 +194,20 @@ class GCULDocumentService {
 
       request.fields['document_id'] = documentId;
 
-      print('🔍 GCUL: Verifying document integrity...');
+    print('🔍 GCUL: Verifying document integrity...');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('GCUL: Document verification completed');
+      print('GCUL: Document verification completed');
         return data['verification'];
       } else {
         throw Exception('HTTP ${response.statusCode}: ${response.body}');
       }
 
     } catch (e) {
-      print('GCUL: Document verification failed: $e');
+    print('GCUL: Document verification failed: $e');
       throw Exception('Failed to verify document: $e');
     }
   }
@@ -225,7 +225,7 @@ class GCULDocumentService {
 
       // Biometric verification for audit trail access (highly sensitive)
       if (requireBiometric && context != null) {
-        print('🔐 GCUL: Performing biometric verification for audit trail access');
+      print('🔐 GCUL: Performing biometric verification for audit trail access');
         final authProvider = Provider.of<auth_provider.AuthProvider>(context, listen: false);
         
         if (authProvider.isBiometricEnabled) {
@@ -237,7 +237,7 @@ class GCULDocumentService {
           }
           
           if (biometricResult == BiometricVerificationResult.success) {
-            print('GCUL: Biometric verification successful for audit trail access');
+          print('GCUL: Biometric verification successful for audit trail access');
           }
         }
       }
@@ -264,7 +264,7 @@ class GCULDocumentService {
       }
 
     } catch (e) {
-      print('Error getting audit trail: $e');
+    print('Error getting audit trail: $e');
       throw Exception('Failed to get audit trail: $e');
     }
   }
@@ -282,7 +282,7 @@ class GCULDocumentService {
 
       // Biometric verification for sensitive document access
       if (requireBiometric && context != null) {
-        print('🔐 GCUL: Performing biometric verification for document download');
+      print('🔐 GCUL: Performing biometric verification for document download');
         final authProvider = Provider.of<auth_provider.AuthProvider>(context, listen: false);
         
         if (authProvider.isBiometricEnabled) {
@@ -294,7 +294,7 @@ class GCULDocumentService {
           }
           
           if (biometricResult == BiometricVerificationResult.success) {
-            print('GCUL: Biometric verification successful for document download');
+          print('GCUL: Biometric verification successful for document download');
           }
         }
       }
@@ -308,14 +308,14 @@ class GCULDocumentService {
       );
 
       if (response.statusCode == 200) {
-        print('GCUL: Document downloaded and decrypted');
+      print('GCUL: Document downloaded and decrypted');
         return response.bodyBytes;
       } else {
         throw Exception('HTTP ${response.statusCode}: ${response.body}');
       }
 
     } catch (e) {
-      print('GCUL: Document download failed: $e');
+    print('GCUL: Document download failed: $e');
       throw Exception('Failed to download document: $e');
     }
   }
@@ -333,7 +333,7 @@ class GCULDocumentService {
 
       // Biometric verification for document deletion (critical operation)
       if (requireBiometric && context != null) {
-        print('🔐 GCUL: Performing biometric verification for document deletion');
+      print('🔐 GCUL: Performing biometric verification for document deletion');
         final authProvider = Provider.of<auth_provider.AuthProvider>(context, listen: false);
         
         if (authProvider.isBiometricEnabled) {
@@ -345,7 +345,7 @@ class GCULDocumentService {
           }
           
           if (biometricResult == BiometricVerificationResult.success) {
-            print('GCUL: Biometric verification successful for document deletion');
+          print('GCUL: Biometric verification successful for document deletion');
           }
         }
       }
@@ -365,13 +365,13 @@ class GCULDocumentService {
           throw Exception(data['error'] ?? 'Failed to delete document');
         }
         
-        print('GCUL: Document deleted successfully');
+      print('GCUL: Document deleted successfully');
       } else {
         throw Exception('HTTP ${response.statusCode}: ${response.body}');
       }
 
     } catch (e) {
-      print('GCUL: Document deletion failed: $e');
+    print('GCUL: Document deletion failed: $e');
       throw Exception('Failed to delete document: $e');
     }
   }
@@ -405,7 +405,7 @@ class GCULDocumentService {
       }
 
     } catch (e) {
-      print('Error getting document metadata: $e');
+    print('Error getting document metadata: $e');
       throw Exception('Failed to get document metadata: $e');
     }
   }

@@ -32,15 +32,15 @@ class NotificationService {
 
   /// Handle notification tap - open the PDF file
   static void _onNotificationTapped(NotificationResponse response) async {
-    print('🔔 Notification tapped!');
-    print('📄 Payload: ${response.payload}');
-    print('🆔 Notification ID: ${response.id}');
+  print('🔔 Notification tapped!');
+  print('📄 Payload: ${response.payload}');
+  print('🆔 Notification ID: ${response.id}');
     
     final filePath = response.payload;
     if (filePath != null && filePath.isNotEmpty) {
-      print('📂 Attempting to open file: $filePath');
+    print('📂 Attempting to open file: $filePath');
       final success = await _openPDFFile(filePath);
-      print('✅ File open result: $success');
+    print('✅ File open result: $success');
       
       if (!success) {
         // Show a fallback notification if file couldn't be opened
@@ -50,38 +50,38 @@ class NotificationService {
         );
       }
     } else {
-      print('❌ No file path in notification payload');
+    print('❌ No file path in notification payload');
     }
   }
 
   /// Open PDF file using default system app
   static Future<bool> _openPDFFile(String filePath) async {
     try {
-      print('🔍 Checking if file exists: $filePath');
+    print('🔍 Checking if file exists: $filePath');
       final file = File(filePath);
       final exists = await file.exists();
-      print('📁 File exists: $exists');
+    print('📁 File exists: $exists');
       
       if (exists) {
-        print('🚀 Attempting to open file...');
+      print('🚀 Attempting to open file...');
         
         // Method 1: Try open_file package first (most reliable for mobile)
         try {
-          print('🔗 Using open_file package...');
+        print('🔗 Using open_file package...');
           final result = await OpenFile.open(filePath);
-          print('� OpenFile result: ${result.type} - ${result.message}');
+        print('� OpenFile result: ${result.type} - ${result.message}');
           if (result.type == ResultType.done) {
-            print('✅ File opened successfully with open_file package');
+          print('✅ File opened successfully with open_file package');
             return true;
           }
         } catch (e) {
-          print('❌ Method 1 (open_file) failed: $e');
+        print('❌ Method 1 (open_file) failed: $e');
         }
         
         // Method 2: Try copying to Downloads folder and opening from there
         if (Platform.isAndroid) {
           try {
-            print('🔄 Trying to copy file to Downloads folder...');
+          print('🔄 Trying to copy file to Downloads folder...');
             final downloadsDir = Directory('/storage/emulated/0/Download');
             if (await downloadsDir.exists()) {
               final fileName = filePath.split('/').last;
@@ -89,51 +89,51 @@ class NotificationService {
               
               // Copy file to Downloads
               await file.copy(newPath);
-              print('📋 File copied to: $newPath');
+            print('📋 File copied to: $newPath');
               
               // Try to open from Downloads
               final result = await OpenFile.open(newPath);
-              print('📱 OpenFile (Downloads) result: ${result.type} - ${result.message}');
+            print('📱 OpenFile (Downloads) result: ${result.type} - ${result.message}');
               if (result.type == ResultType.done) {
-                print('✅ File opened successfully from Downloads');
+              print('✅ File opened successfully from Downloads');
                 return true;
               }
             }
           } catch (e) {
-            print('❌ Method 2 (copy to Downloads) failed: $e');
+          print('❌ Method 2 (copy to Downloads) failed: $e');
           }
         }
         
         // Method 3: Try with file:// URI
         try {
           final uri = Uri.file(filePath);
-          print('🔗 File URI: $uri');
+        print('🔗 File URI: $uri');
           final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
-          print('📱 Method 3 (file URI) result: $opened');
+        print('📱 Method 3 (file URI) result: $opened');
           if (opened) return true;
         } catch (e) {
-          print('❌ Method 3 failed: $e');
+        print('❌ Method 3 failed: $e');
         }
         
         // Method 4: Try platform default launch
         try {
           final uri = Uri.parse('file://$filePath');
-          print('🔗 Direct file URI: $uri');
+        print('🔗 Direct file URI: $uri');
           final opened = await launchUrl(uri, mode: LaunchMode.platformDefault);
-          print('📱 Method 4 (direct URI) result: $opened');
+        print('📱 Method 4 (direct URI) result: $opened');
           if (opened) return true;
         } catch (e) {
-          print('❌ Method 4 failed: $e');
+        print('❌ Method 4 failed: $e');
         }
         
-        print('❌ All methods failed to open the file');
+      print('❌ All methods failed to open the file');
         return false;
       } else {
-        print('❌ File does not exist at: $filePath');
+      print('❌ File does not exist at: $filePath');
         return false;
       }
     } catch (e) {
-      print('❌ Error opening PDF file: $e');
+    print('❌ Error opening PDF file: $e');
       return false;
     }
   }
@@ -144,18 +144,18 @@ class NotificationService {
     String? fileSize,
   }) async {
     try {
-      print('🔔 Attempting to show download notification for: $fileName');
+    print('🔔 Attempting to show download notification for: $fileName');
       
       // Check if we have permission first
       if (Platform.isAndroid) {
         final hasPermission = await Permission.notification.isGranted;
-        print('📱 Notification permission granted: $hasPermission');
+      print('📱 Notification permission granted: $hasPermission');
         
         if (!hasPermission) {
-          print('❌ No notification permission, requesting...');
+        print('❌ No notification permission, requesting...');
           final granted = await Permission.notification.request();
           if (granted != PermissionStatus.granted) {
-            print('❌ Notification permission denied');
+          print('❌ Notification permission denied');
             return;
           }
         }
@@ -198,8 +198,8 @@ class NotificationService {
 
       final notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
       
-      print('🔔 Showing notification with ID: $notificationId');
-      print('📄 File path: $filePath');
+    print('🔔 Showing notification with ID: $notificationId');
+    print('📄 File path: $filePath');
 
       await _notifications.show(
         notificationId,
@@ -209,10 +209,10 @@ class NotificationService {
         payload: filePath,
       );
       
-      print('✅ Notification shown successfully');
+    print('✅ Notification shown successfully');
 
     } catch (e) {
-      print('❌ Error showing notification: $e');
+    print('❌ Error showing notification: $e');
       // Don't throw error, just log it since notification is not critical
     }
   }
@@ -251,21 +251,21 @@ class NotificationService {
         details,
       );
     } catch (e) {
-      print('Error showing error notification: $e');
+    print('Error showing error notification: $e');
     }
   }
 
   /// Test notification to verify everything works
   static Future<void> testNotification() async {
     try {
-      print('🧪 Testing notification system...');
+    print('🧪 Testing notification system...');
       
       // Check permissions first
       final hasPermission = await requestPermissions();
-      print('🔔 Notification permission: $hasPermission');
+    print('🔔 Notification permission: $hasPermission');
       
       if (!hasPermission) {
-        print('❌ Cannot show test notification - no permission');
+      print('❌ Cannot show test notification - no permission');
         return;
       }
 
@@ -298,9 +298,9 @@ class NotificationService {
         details,
       );
       
-      print('✅ Test notification sent');
+    print('✅ Test notification sent');
     } catch (e) {
-      print('❌ Test notification failed: $e');
+    print('❌ Test notification failed: $e');
     }
   }
   static Future<bool> requestPermissions() async {
@@ -308,7 +308,7 @@ class NotificationService {
       if (Platform.isAndroid) {
         // For Android 13+ (API 33+), we need to request POST_NOTIFICATIONS permission
         final status = await Permission.notification.request();
-        print('📱 Android notification permission status: $status');
+      print('📱 Android notification permission status: $status');
         return status == PermissionStatus.granted;
       } else if (Platform.isIOS) {
         final result = await _notifications
@@ -319,12 +319,12 @@ class NotificationService {
               badge: true,
               sound: true,
             );
-        print('📱 iOS notification permission result: $result');
+      print('📱 iOS notification permission result: $result');
         return result ?? false;
       }
       return true;
     } catch (e) {
-      print('❌ Error requesting notification permissions: $e');
+    print('❌ Error requesting notification permissions: $e');
       return false;
     }
   }

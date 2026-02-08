@@ -44,12 +44,12 @@ class LegalChatProvider with ChangeNotifier {
         throw Exception('User not authenticated');
       }
 
-      print('COMPREHENSIVE: Starting comprehensive legal analysis');
+    print('COMPREHENSIVE: Starting comprehensive legal analysis');
       
       // Check if this is a demo user and add processing delay
       final isDemoUser = user.email == 'smp@gmail.com';
       if (isDemoUser) {
-        print('🎯 DEMO MODE: Adding 15-second processing delay for demo user');
+      print('🎯 DEMO MODE: Adding 15-second processing delay for demo user');
         // Wait for 15 seconds to simulate processing for demo
         await Future.delayed(const Duration(seconds: 15));
       }
@@ -80,10 +80,10 @@ class LegalChatProvider with ChangeNotifier {
       );
 
       addMessage(summaryMessage);
-      print('COMPREHENSIVE: Analysis completed and summary added to chat');
+    print('COMPREHENSIVE: Analysis completed and summary added to chat');
 
     } catch (e) {
-      print('Error in comprehensive analysis: $e');
+    print('Error in comprehensive analysis: $e');
       addMessage(ChatMessage(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         message: 'Failed to analyze document: ${e.toString()}',
@@ -124,8 +124,8 @@ ${result.documentSummary}
 
     try {
       // Debug: Check Firebase Auth initialization
-      print('DEBUG: Checking Firebase Auth state...');
-      print('Firebase App initialized: ${Firebase.apps.isNotEmpty}');
+    print('DEBUG: Checking Firebase Auth state...');
+    print('Firebase App initialized: ${Firebase.apps.isNotEmpty}');
       
       // Get current user from Firebase Auth directly
       final user = FirebaseAuth.instance.currentUser;
@@ -138,8 +138,8 @@ ${result.documentSummary}
         throw Exception('❌ User email is not available. Please check your account.');
       }
 
-      print('✅ Processing document for user: ${user.email}');
-      print('🚀 FLUTTER: Using MCP endpoint: ${AppConfig.mcpProcessText}');
+    print('✅ Processing document for user: ${user.email}');
+    print('🚀 FLUTTER: Using MCP endpoint: ${AppConfig.mcpProcessText}');
 
       // Use MCP server for comprehensive processing
       final response = await http.post(
@@ -156,7 +156,7 @@ ${result.documentSummary}
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
-        print('🔍 DEBUG: MCP Response received from: ${responseData['source']}');
+      print('🔍 DEBUG: MCP Response received from: ${responseData['source']}');
         
         // Parse MCP response data
         final data = responseData['data'];
@@ -184,12 +184,12 @@ ${result.documentSummary}
           messageType: 'document_result',
         ));
       } else {
-        print('🔍 DEBUG: Response status: ${response.statusCode}');
-        print('🔍 DEBUG: Response body: ${response.body}');
+      print('🔍 DEBUG: Response status: ${response.statusCode}');
+      print('🔍 DEBUG: Response body: ${response.body}');
         throw Exception('Failed to process document via MCP: ${response.statusCode}');
       }
     } catch (e) {
-      print('❌ Error processing document via MCP: $e');
+    print('❌ Error processing document via MCP: $e');
       
       // Add error message
       addMessage(ChatMessage(
@@ -229,8 +229,8 @@ ${result.documentSummary}
         throw Exception('❌ User email is not available. Please check your account.');
       }
 
-      print('Sending message for user: ${user.email}');
-      print('FLUTTER: Using MCP endpoint for intelligent chat');
+    print('Sending message for user: ${user.email}');
+    print('FLUTTER: Using MCP endpoint for intelligent chat');
 
       // Determine intent based on context and question
       String intent = _determineQuestionIntent(text);
@@ -263,7 +263,7 @@ ${result.documentSummary}
 
         if (response.statusCode == 200) {
           final responseData = json.decode(response.body);
-          print('🔍 DEBUG: MCP Chat Response received');
+        print('🔍 DEBUG: MCP Chat Response received');
           
           if (responseData['success'] == true) {
             final data = responseData['data'];
@@ -284,12 +284,12 @@ ${result.documentSummary}
             messageType: 'chat_response',
           ));
         } else {
-          print('🔍 DEBUG: MCP Response status: ${response.statusCode}');
+        print('🔍 DEBUG: MCP Response status: ${response.statusCode}');
           throw Exception('Failed to get response from MCP server: ${response.statusCode}');
         }
       }
     } catch (e) {
-      print('❌ Error in sendMessage: $e');
+    print('❌ Error in sendMessage: $e');
       
       // Fallback to intelligent static response
       String fallbackResponse = _generateIntelligentResponse(text);
@@ -532,11 +532,11 @@ String _generateDocumentContextResponse(String userQuestion) {
         throw Exception('User not authenticated');
       }
 
-      print('🔍 DEBUG: Saving summary for user: ${user.email}');
+    print('🔍 DEBUG: Saving summary for user: ${user.email}');
 
       // Check if this is a demo user
       if (user.email == 'smp@gmail.com') {
-        print('🎯 DEMO MODE: Starting demo summary save with 15-second delay');
+      print('🎯 DEMO MODE: Starting demo summary save with 15-second delay');
         
         // Set demo processing state
         _isSavingDemo = true;
@@ -549,7 +549,7 @@ String _generateDocumentContextResponse(String userQuestion) {
         _isSavingDemo = false;
         notifyListeners();
         
-        print('✅ Demo summary save completed');
+      print('✅ Demo summary save completed');
         return; // Exit early for demo user
       }
 
@@ -584,13 +584,13 @@ String _generateDocumentContextResponse(String userQuestion) {
 
       if (response['success'] == true) {
         final documentId = response['document_id'];
-        print('✅ Summary saved successfully with ID: $documentId');
+      print('✅ Summary saved successfully with ID: $documentId');
       } else {
         throw Exception('Failed to save summary: ${response['message'] ?? 'Unknown error'}');
       }
 
     } catch (e) {
-      print('❌ Error saving summary: $e');
+    print('❌ Error saving summary: $e');
       // Reset demo state on error
       _isSavingDemo = false;
       notifyListeners();
@@ -605,11 +605,11 @@ String _generateDocumentContextResponse(String userQuestion) {
         throw Exception('User not authenticated');
       }
 
-      print('🔍 DEBUG: Saving comprehensive analysis for user: ${user.email}');
+    print('🔍 DEBUG: Saving comprehensive analysis for user: ${user.email}');
 
       // Check if this is a demo user
       if (user.email == 'smp@gmail.com') {
-        print('🎯 DEMO MODE: Starting demo comprehensive analysis save with 15-second delay');
+      print('🎯 DEMO MODE: Starting demo comprehensive analysis save with 15-second delay');
         
         // Set demo processing state
         _isSavingDemo = true;
@@ -622,7 +622,7 @@ String _generateDocumentContextResponse(String userQuestion) {
         _isSavingDemo = false;
         notifyListeners();
         
-        print('✅ Demo comprehensive analysis save completed');
+      print('✅ Demo comprehensive analysis save completed');
         return; // Exit early for demo user
       }
 
@@ -652,13 +652,13 @@ String _generateDocumentContextResponse(String userQuestion) {
 
       if (response['success'] == true) {
         final documentId = response['document_id'];
-        print('✅ Comprehensive analysis saved successfully with ID: $documentId');
+      print('✅ Comprehensive analysis saved successfully with ID: $documentId');
       } else {
         throw Exception('Failed to save analysis: ${response['message'] ?? 'Unknown error'}');
       }
 
     } catch (e) {
-      print('❌ Error saving comprehensive analysis: $e');
+    print('❌ Error saving comprehensive analysis: $e');
       // Reset demo state on error
       _isSavingDemo = false;
       notifyListeners();

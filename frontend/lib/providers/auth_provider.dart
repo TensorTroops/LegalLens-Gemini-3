@@ -47,7 +47,7 @@ class AuthProvider with ChangeNotifier {
       _biometricInfo = await _biometricService.getBiometricInfo(_user!.email!);
       notifyListeners();
     } catch (e) {
-      print('❌ AuthProvider: Error initializing biometric: $e');
+    print('❌ AuthProvider: Error initializing biometric: $e');
     }
   }
   
@@ -127,7 +127,7 @@ class AuthProvider with ChangeNotifier {
           return BiometricLoginResult.error;
       }
     } catch (e) {
-      print('❌ AuthProvider: Biometric login error: $e');
+    print('❌ AuthProvider: Biometric login error: $e');
       return BiometricLoginResult.error;
     } finally {
       _setLoading(false);
@@ -148,7 +148,7 @@ class AuthProvider with ChangeNotifier {
       
       return result;
     } catch (e) {
-      print('❌ AuthProvider: Enable biometric error: $e');
+    print('❌ AuthProvider: Enable biometric error: $e');
       return BiometricEnrollmentResult.error;
     } finally {
       _setLoading(false);
@@ -164,7 +164,7 @@ class AuthProvider with ChangeNotifier {
       await _biometricService.disableBiometric(_user!.email!);
       await _initializeBiometric();
     } catch (e) {
-      print('❌ AuthProvider: Disable biometric error: $e');
+    print('❌ AuthProvider: Disable biometric error: $e');
     } finally {
       _setLoading(false);
     }

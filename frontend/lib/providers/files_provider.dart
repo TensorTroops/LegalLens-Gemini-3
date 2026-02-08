@@ -32,19 +32,19 @@ class FilesProvider with ChangeNotifier {
         throw Exception('User not authenticated');
       }
 
-      print('📚 Loading documents from Firebase and GCUL...');
+    print('📚 Loading documents from Firebase and GCUL...');
       
       // Get documents from GCUL service
       _documents = await _gculService.getUserDocuments();
       
-      print('✅ Loaded ${_documents.length} documents successfully');
+    print('✅ Loaded ${_documents.length} documents successfully');
       
       _applyFilters();
       _isLoading = false;
       notifyListeners();
       
     } catch (e) {
-      print('❌ Error loading documents: $e');
+    print('❌ Error loading documents: $e');
       _errorMessage = 'Failed to load documents: ${e.toString()}';
       _isLoading = false;
       notifyListeners();
@@ -111,7 +111,7 @@ class FilesProvider with ChangeNotifier {
     bool requireBiometric = true,
   }) async {
     try {
-      print('🗑️ Deleting document: $documentId');
+    print('🗑️ Deleting document: $documentId');
       
       // Delete from GCUL storage and blockchain with biometric verification
       await _gculService.deleteDocument(
@@ -125,9 +125,9 @@ class FilesProvider with ChangeNotifier {
       _applyFilters();
       notifyListeners();
       
-      print('✅ Document deleted successfully');
+    print('✅ Document deleted successfully');
     } catch (e) {
-      print('❌ Error deleting document: $e');
+    print('❌ Error deleting document: $e');
       _errorMessage = 'Failed to delete document: ${e.toString()}';
       notifyListeners();
       rethrow;
@@ -145,7 +145,7 @@ class FilesProvider with ChangeNotifier {
     bool requireBiometric = true,
   }) async {
     try {
-      print('🔍 Verifying document integrity: ${document.id}');
+    print('🔍 Verifying document integrity: ${document.id}');
       
       // First download the current document with biometric verification
       final currentBytes = await _gculService.downloadDocument(
@@ -162,11 +162,11 @@ class FilesProvider with ChangeNotifier {
         requireBiometric: requireBiometric,
       );
       
-      print('✅ Document verification completed');
+    print('✅ Document verification completed');
       return verification;
       
     } catch (e) {
-      print('❌ Error verifying document: $e');
+    print('❌ Error verifying document: $e');
       throw Exception('Failed to verify document: $e');
     }
   }
@@ -177,7 +177,7 @@ class FilesProvider with ChangeNotifier {
     bool requireBiometric = true,
   }) async {
     try {
-      print('📋 Getting audit trail for: $documentId');
+    print('📋 Getting audit trail for: $documentId');
       
       final auditTrail = await _gculService.getDocumentAuditTrail(
         documentId,
@@ -185,11 +185,11 @@ class FilesProvider with ChangeNotifier {
         requireBiometric: requireBiometric,
       );
       
-      print('✅ Retrieved audit trail with ${auditTrail.length} entries');
+    print('✅ Retrieved audit trail with ${auditTrail.length} entries');
       return auditTrail;
       
     } catch (e) {
-      print('❌ Error getting audit trail: $e');
+    print('❌ Error getting audit trail: $e');
       throw Exception('Failed to get audit trail: $e');
     }
   }
@@ -200,7 +200,7 @@ class FilesProvider with ChangeNotifier {
     bool requireBiometric = true,
   }) async {
     try {
-      print('📥 Downloading document: $documentId');
+    print('📥 Downloading document: $documentId');
       
       final bytes = await _gculService.downloadDocument(
         documentId,
@@ -208,11 +208,11 @@ class FilesProvider with ChangeNotifier {
         requireBiometric: requireBiometric,
       );
       
-      print('✅ Document downloaded successfully');
+    print('✅ Document downloaded successfully');
       return bytes;
       
     } catch (e) {
-      print('❌ Error downloading document: $e');
+    print('❌ Error downloading document: $e');
       throw Exception('Failed to download document: $e');
     }
   }

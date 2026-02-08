@@ -75,7 +75,7 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
         }
       }
     } catch (e) {
-      print('Camera initialization error: $e');
+    print('Camera initialization error: $e');
     }
   }
 
@@ -625,7 +625,7 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
         // Process the captured image
         _processDocument();
       } catch (e) {
-        print('Error capturing photo: $e');
+      print('Error capturing photo: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error capturing photo: $e')),
         );
@@ -957,7 +957,7 @@ SPECIAL TERMS:
       }
 
     } catch (e) {
-      print('Error extracting text: $e');
+    print('Error extracting text: $e');
       setState(() {
         _extractingText = false;
         _isProcessing = false;

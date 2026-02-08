@@ -246,3 +246,4 @@ secrets/
 *.p12
 *.pfx
 GCUL_DELETION_FIX.md
+linux/*

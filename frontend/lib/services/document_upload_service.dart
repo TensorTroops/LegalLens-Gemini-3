@@ -39,7 +39,7 @@ class DocumentUploadService {
       
       // Create multipart request to MCP server
       final uri = Uri.parse(AppConfig.mcpProcessDocument);
-      print('🚀 UPLOAD SERVICE: Using MCP endpoint: $uri');
+    print('🚀 UPLOAD SERVICE: Using MCP endpoint: $uri');
       final request = http.MultipartRequest('POST', uri);
       
       // Add form fields

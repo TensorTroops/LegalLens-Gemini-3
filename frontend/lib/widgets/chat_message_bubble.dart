@@ -20,9 +20,9 @@ class ChatMessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     // Debug logging for save summary button
     if (message.messageType == 'document_result') {
-      print('🔍 ChatMessageBubble: Document result detected');
-      print('🔍 onSaveSummary callback: ${onSaveSummary != null ? "Present" : "NULL"}');
-      print('🔍 Message type: ${message.messageType}');
+    print('🔍 ChatMessageBubble: Document result detected');
+    print('🔍 onSaveSummary callback: ${onSaveSummary != null ? "Present" : "NULL"}');
+    print('🔍 Message type: ${message.messageType}');
     }
     
     return Container(
@@ -502,9 +502,9 @@ class ChatMessageBubble extends StatelessWidget {
     try {
       final filename = _generateSummaryFileName(documentTitle);
       await FileStorageService.saveTextFile(summaryText, filename);
-      print('✅ Summary saved locally: $filename');
+    print('✅ Summary saved locally: $filename');
     } catch (e) {
-      print('❌ Failed to save summary locally: $e');
+    print('❌ Failed to save summary locally: $e');
       // Don't throw - Firestore save is more important
     }
   }

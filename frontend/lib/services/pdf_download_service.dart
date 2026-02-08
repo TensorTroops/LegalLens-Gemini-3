@@ -20,7 +20,7 @@ class PDFDownloadService {
       // Placeholder - would open the file
       return true;
     } catch (e) {
-      print('Error opening PDF: $e');
+    print('Error opening PDF: $e');
       return false;
     }
   }

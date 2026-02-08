@@ -14,17 +14,17 @@ class AuthService {
   Future<UserCredential?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
-      print('AuthService - Attempting sign in for: $email');
+    print('AuthService - Attempting sign in for: $email');
       UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       
-      print('AuthService - Sign in successful, user: ${result.user?.uid}');
-      print('AuthService - User email verified: ${result.user?.emailVerified}');
+    print('AuthService - Sign in successful, user: ${result.user?.uid}');
+    print('AuthService - User email verified: ${result.user?.emailVerified}');
       
       // Skip Firestore last login update due to permission issues
-      print('User signed in: ${result.user?.email}');
+    print('User signed in: ${result.user?.email}');
       
       // Save login state
       final prefs = await SharedPreferences.getInstance();
@@ -33,7 +33,7 @@ class AuthService {
       
       return result;
     } on FirebaseAuthException catch (e) {
-      print('AuthService - Sign in failed: ${e.code} - ${e.message}');
+    print('AuthService - Sign in failed: ${e.code} - ${e.message}');
       throw _handleAuthError(e);
     }
   }
@@ -49,7 +49,7 @@ class AuthService {
 
       // Skip Firestore profile creation due to permission issues
       // The user document will be created when they first save a summary
-      print('User created in Firebase Auth: ${result.user?.uid}');
+    print('User created in Firebase Auth: ${result.user?.uid}');
       
       // Save login state
       final prefs = await SharedPreferences.getInstance();

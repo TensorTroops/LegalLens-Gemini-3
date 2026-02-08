@@ -24,8 +24,8 @@ from app.config.settings import get_settings
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+ level=logging.INFO,
+ format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -34,87 +34,87 @@ settings = get_settings()
 
 # Create FastAPI app
 app = FastAPI(
-    title=settings.APP_NAME,
-    description="Document AI processing service for LegalLens",
-    version="1.0.0",
-    debug=settings.DEBUG
+ title=settings.APP_NAME,
+ description="Document AI processing service for LegalLens",
+ version="1.0.0",
+ debug=settings.DEBUG
 )
 
 # Add CORS middleware
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Configure this properly for production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+ CORSMiddleware,
+ allow_origins=["*"], # Configure this properly for production
+ allow_credentials=True,
+ allow_methods=["*"],
+ allow_headers=["*"],
 )
 
 # Include routers
 app.include_router(
-    files_router,
-    prefix="/api/v1/files",
-    tags=["files"]
+ files_router,
+ prefix="/api/v1/files",
+ tags=["files"]
 )
 
 app.include_router(
-    documents_router,
-    prefix="/api/v1/documents",
-    tags=["documents"]
+ documents_router,
+ prefix="/api/v1/documents",
+ tags=["documents"]
 )
 
 app.include_router(
-    legal_chat_router,
-    prefix="/api/v1/legal-chat",
-    tags=["legal-chat"]
+ legal_chat_router,
+ prefix="/api/v1/legal-chat",
+ tags=["legal-chat"]
 )
 
 app.include_router(
-    mcp_router,
-    prefix="/api/v1/mcp",
-    tags=["mcp"]
+ mcp_router,
+ prefix="/api/v1/mcp",
+ tags=["mcp"]
 )
 
 app.include_router(
-    dictionary_router,
-    prefix="/api/v1",
-    tags=["dictionary"]
+ dictionary_router,
+ prefix="/api/v1",
+ tags=["dictionary"]
 )
 
 app.include_router(
-    comprehensive_router,
-    prefix="/api/v1/comprehensive",
-    tags=["comprehensive-analysis"]
+ comprehensive_router,
+ prefix="/api/v1/comprehensive",
+ tags=["comprehensive-analysis"]
 )
 
 @app.get("/")
 async def root():
-    """Root endpoint."""
-    return {
-        "message": "LegalLens Document AI Service",
-        "version": "1.0.0",
-        "status": "running"
-    }
+ """Root endpoint."""
+ return {
+ "message": "LegalLens Document AI Service",
+ "version": "1.0.0",
+ "status": "running"
+ }
 from pydantic import BaseModel
 class SignInRequest(BaseModel):
-    email: str
-    password: str
+ email: str
+ password: str
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {
-        "status": "healthy",
-        "service": "legallens-document-ai"
-    }
+ """Health check endpoint."""
+ return {
+ "status": "healthy",
+ "service": "legallens-document-ai"
+ }
 @app.post("/api/signin")
 async def sign_in(request: SignInRequest):
-    # Simulate checking credentials (you'll implement the actual logic here)
-    return {"message": "Signed in successfully"}
+ # Simulate checking credentials (you'll implement the actual logic here)
+ return {"message": "Signed in successfully"}
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(
-        "app.main:app",
-        host=settings.API_HOST,
-        port=settings.API_PORT,
-        reload=settings.DEBUG
-    )
+ import uvicorn
+ uvicorn.run(
+ "app.main:app",
+ host=settings.API_HOST,
+ port=settings.API_PORT,
+ reload=settings.DEBUG
+ )

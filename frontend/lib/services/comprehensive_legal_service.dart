@@ -153,7 +153,7 @@ class ComprehensiveLegalService {
             filename: filename,
           );
           
-          print('✅ PDF generated and saved: $filename (${pdfBytes.length} bytes)');
+        print('PDF generated and saved: $filename (${pdfBytes.length} bytes)');
           
           return {
             'success': true,
@@ -226,8 +226,10 @@ class ComprehensiveAnalysisResult {
   final String documentSummary;  // For chat display
   final List<LegalTerm> legalTerms;  // For PDF report
   final String riskAnalysis;  // For PDF report
+  final List<RiskClause> riskAnalysisStructured;  // Gemini 3 structured output
   final List<ApplicableLaw> applicableLaws;  // For PDF report
   final Map<String, dynamic> processingMetadata;
+  final List<String> gemini3FeaturesUsed;  // Track Gemini 3 features
   final String? filename;
   final String? extractedText;
   final int? textLength;
@@ -239,8 +241,10 @@ class ComprehensiveAnalysisResult {
     required this.documentSummary,
     required this.legalTerms,
     required this.riskAnalysis,
+    required this.riskAnalysisStructured,
     required this.applicableLaws,
     required this.processingMetadata,
+    required this.gemini3FeaturesUsed,
     this.filename,
     this.extractedText,
     this.textLength,
@@ -249,6 +253,18 @@ class ComprehensiveAnalysisResult {
   });
 
   factory ComprehensiveAnalysisResult.fromJson(Map<String, dynamic> json) {
+    final metadata = json['processing_metadata'] ?? {};
+    
+    // Parse structured risk analysis from Gemini 3 if available
+    List<RiskClause> structuredRisks = [];
+    if (metadata['risk_analysis_structured'] is Map) {
+      final riskData = metadata['risk_analysis_structured'] as Map<String, dynamic>;
+      structuredRisks = (riskData['clauses'] as List<dynamic>?)
+              ?.map((item) => RiskClause.fromJson(item))
+              .toList() ??
+          [];
+    }
+    
     return ComprehensiveAnalysisResult(
       success: json['success'] ?? false,
       documentSummary: ComprehensiveLegalService.cleanFormattedText(json['document_summary'] ?? ''),
@@ -257,11 +273,16 @@ class ComprehensiveAnalysisResult {
               .toList() ??
           [],
       riskAnalysis: ComprehensiveLegalService.cleanFormattedText(json['risk_analysis'] ?? ''),
+      riskAnalysisStructured: structuredRisks,
       applicableLaws: (json['applicable_laws'] as List<dynamic>?)
               ?.map((item) => ApplicableLaw.fromJson(item))
               .toList() ??
           [],
-      processingMetadata: json['processing_metadata'] ?? {},
+      processingMetadata: metadata,
+      gemini3FeaturesUsed: (metadata['gemini_3_features_used'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       filename: json['filename'],
       extractedText: json['extracted_text'],
       textLength: json['text_length'],
@@ -283,6 +304,19 @@ class ComprehensiveAnalysisResult {
       'text_length': textLength,
       'extraction_info': extractionInfo,
     };
+  }
+
+  /// Whether Gemini 3 structured risk analysis is available
+  bool get hasStructuredRiskAnalysis => riskAnalysisStructured.isNotEmpty;
+
+  /// Get overall risk level from structured analysis
+  String get overallRiskLevel {
+    if (riskAnalysisStructured.isEmpty) return 'unknown';
+    final highRisks = riskAnalysisStructured.where((r) => r.riskLevel == 'high').length;
+    final mediumRisks = riskAnalysisStructured.where((r) => r.riskLevel == 'medium').length;
+    if (highRisks > 2) return 'high';
+    if (highRisks > 0 || mediumRisks > 2) return 'medium';
+    return 'low';
   }
 }
 
@@ -336,4 +370,43 @@ class ApplicableLaw {
       'description': description,
     };
   }
+}
+
+/// Structured risk clause from Gemini 3 structured output
+class RiskClause {
+  final String clause;
+  final String riskLevel;
+  final String explanation;
+  final String recommendation;
+
+  RiskClause({
+    required this.clause,
+    required this.riskLevel,
+    required this.explanation,
+    required this.recommendation,
+  });
+
+  factory RiskClause.fromJson(Map<String, dynamic> json) {
+    return RiskClause(
+      clause: json['clause'] ?? '',
+      riskLevel: json['risk_level'] ?? 'unknown',
+      explanation: json['explanation'] ?? '',
+      recommendation: json['recommendation'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'clause': clause,
+      'risk_level': riskLevel,
+      'explanation': explanation,
+      'recommendation': recommendation,
+    };
+  }
+
+  /// Whether this is a high-risk clause
+  bool get isHighRisk => riskLevel.toLowerCase() == 'high';
+
+  /// Whether this is a medium-risk clause
+  bool get isMediumRisk => riskLevel.toLowerCase() == 'medium';
 }

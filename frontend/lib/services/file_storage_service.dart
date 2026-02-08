@@ -39,7 +39,7 @@ class FileStorageService {
         final testDir = Directory(path);
         if (await testDir.exists()) {
           downloadDir = testDir;
-          print("📁 Found Downloads directory: $path");
+        print("📁 Found Downloads directory: $path");
           break;
         }
       }
@@ -48,7 +48,7 @@ class FileStorageService {
         directory = downloadDir;
       } else {
         // If no Downloads folder found, use external storage
-        print("📁 Downloads folder not found, using external storage");
+      print("📁 Downloads folder not found, using external storage");
         directory = await getExternalStorageDirectory() ?? 
                    await getApplicationDocumentsDirectory();
       }
@@ -58,7 +58,7 @@ class FileStorageService {
     }
 
     final exPath = directory.path;
-    print("📁 Final Storage Path: $exPath");
+  print("📁 Final Storage Path: $exPath");
     
     // Create directory if it doesn't exist
     await Directory(exPath).create(recursive: true);
@@ -68,13 +68,13 @@ class FileStorageService {
       final testFile = File('${exPath}/test_write_permissions.tmp');
       await testFile.writeAsString('test');
       await testFile.delete();
-      print("📁 Write permissions verified for: $exPath");
+    print("📁 Write permissions verified for: $exPath");
     } catch (e) {
-      print("❌ Write permission test failed: $e");
+    print("❌ Write permission test failed: $e");
       // Fallback to app documents directory
       directory = await getApplicationDocumentsDirectory();
       final fallbackPath = directory.path;
-      print("📁 Using fallback path: $fallbackPath");
+    print("📁 Using fallback path: $fallbackPath");
       return fallbackPath;
     }
     return exPath;
@@ -88,23 +88,23 @@ class FileStorageService {
       // Check Android version and request appropriate permissions
       var status = await Permission.storage.status;
       
-      print("🔐 Current storage permission status: $status");
+    print("🔐 Current storage permission status: $status");
       
       if (!status.isGranted) {
-        print("🔐 Requesting storage permission...");
+      print("🔐 Requesting storage permission...");
         status = await Permission.storage.request();
-        print("🔐 Permission request result: $status");
+      print("🔐 Permission request result: $status");
       }
       
       // For Android 11+, also check manage external storage
       if (Platform.isAndroid) {
         var manageStatus = await Permission.manageExternalStorage.status;
-        print("🔐 Manage external storage status: $manageStatus");
+      print("🔐 Manage external storage status: $manageStatus");
         
         if (!manageStatus.isGranted) {
-          print("🔐 Requesting manage external storage permission...");
+        print("🔐 Requesting manage external storage permission...");
           manageStatus = await Permission.manageExternalStorage.request();
-          print("🔐 Manage external storage result: $manageStatus");
+        print("🔐 Manage external storage result: $manageStatus");
         }
         
         // Return true if either permission is granted
@@ -113,7 +113,7 @@ class FileStorageService {
       
       return status.isGranted;
     } catch (e) {
-      print("❌ Error requesting permissions: $e");
+    print("❌ Error requesting permissions: $e");
       return false;
     }
   }
@@ -128,7 +128,7 @@ class FileStorageService {
   static Future<File> saveTextFile(String content, String fileName) async {
     final path = await _localPath;
     File file = File('$path/$fileName');
-    print("💾 Saving text file: $fileName");
+  print("💾 Saving text file: $fileName");
     
     // Write the text data to the file
     return file.writeAsString(content);
@@ -138,7 +138,7 @@ class FileStorageService {
   static Future<File> saveBinaryFile(Uint8List bytes, String fileName) async {
     final path = await _localPath;
     File file = File('$path/$fileName');
-    print("💾 Saving binary file: $fileName (${bytes.length} bytes)");
+  print("💾 Saving binary file: $fileName (${bytes.length} bytes)");
     
     // Write the binary data to the file
     return file.writeAsBytes(bytes);
